@@ -67,9 +67,9 @@ public class AlbumManager {
      * Main features
      */
     public void runApplication() {
-        createTables();
-        insertMockData();
-        insertRandomData(NUMBER_OF_ROWS);
+        //createTables();
+        //insertMockData();
+        //insertRandomData(NUMBER_OF_ROWS);
         chartController.displayRanking();
         chartController.generateHTMLReport();
     }
