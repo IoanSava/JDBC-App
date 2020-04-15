@@ -9,6 +9,9 @@
 [report.html](https://codepen.io/johnycode/pen/OJyPVmR) (**For additional points, you may consider generating suggestive HTML reports, using  [FreeMarker](https://freemarker.apache.org/)  or other reporting tool**)
 
 
+resources/visualvm.png (**Use [Visual VM](https://visualvm.github.io/) in order to monitor the execution of your application**)
+
+
 Output example (**Display the ranking of the artists, considering their positions in the charts**):
 
     6. Picasso - Peru
@@ -63,7 +66,4 @@ Output example (**Display the ranking of the artists, considering their position
     100. Picasso - Ecuador
     
     Process finished with exit code 0
-
-
-resources/visualvm.png (**Use [Visual VM](https://visualvm.github.io/) in order to monitor the execution of your application**)
 
