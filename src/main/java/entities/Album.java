@@ -1,4 +1,4 @@
-package models;
+package entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,17 +12,20 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @ToString
-public class Artist {
+public class Album {
     private int id;
     private String name;
-    private String country;
+    private int artistId;
+    private int releaseYear;
 
-    public Artist(String name) {
+    public Album(String name, int artistId) {
         this.name = name;
+        this.artistId = artistId;
     }
 
-    public Artist(int id, String name) {
+    public Album(int id, String name, int artistId) {
         this.id = id;
         this.name = name;
+        this.artistId = artistId;
     }
 }

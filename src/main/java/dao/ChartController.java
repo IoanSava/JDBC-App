@@ -2,7 +2,6 @@ package dao;
 
 import freemarker.FreeMarkerConfiguration;
 import freemarker.template.*;
-import lombok.NoArgsConstructor;
 
 import java.io.*;
 import java.sql.PreparedStatement;
@@ -18,19 +17,25 @@ import java.util.*;
  *
  * @author Ioan Sava
  */
-@NoArgsConstructor
 public class ChartController extends Controller {
     private String NAME_KEY = "name";
     private String COUNTRY_KEY = "country";
     private String SALES_KEY = "total_sales";
     private String POSITION_KEY = "position";
 
+    public ChartController() {
+        try {
+            connection = getConnection();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     /**
      * Insert a new chart record in database.
      */
     public void create(int albumId, long sales) {
         try {
-            connection = getConnection();
             String query = "insert into chart(album_id, sales)" +
                     " values(?, ?);";
 
@@ -62,7 +67,6 @@ public class ChartController extends Controller {
     private List<Map<String, Object>> generateRanking() {
         List<Map<String, Object>> ranking = new ArrayList<>();
         try {
-            connection = getConnection();
             Statement statement = connection.createStatement();
             String query = "select ar.name, ar.country, SUM(sales) AS total_sales " +
                     "from artists ar join albums al on ar.id = al.artist_id join chart ch on al.id = ch.album_id " +

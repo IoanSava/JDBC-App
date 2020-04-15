@@ -1,3 +1,5 @@
+package app;
+
 import dao.AlbumController;
 import dao.ArtistController;
 import dao.ChartController;
@@ -14,8 +16,11 @@ import java.sql.*;
  *
  * @author Ioan Sava
  */
-public class Application {
+public class AlbumManager {
     private static Connection connection;
+    ArtistController artistController = new ArtistController();
+    AlbumController albumController = new AlbumController();
+    ChartController chartController = new ChartController();
 
     static {
         try {
@@ -30,8 +35,9 @@ public class Application {
 
     public static void main(String[] args) {
         try {
+            AlbumManager albumManager = new AlbumManager();
             connection.setAutoCommit(false);
-            runApplication();
+            albumManager.runApplication();
             connection.commit();
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
@@ -52,7 +58,7 @@ public class Application {
      * each requiring a database connection
      * in order to perform various SQL operations on the database.
      */
-    public static void runThreadPool() {
+    public void runThreadPool() {
         ThreadPoolExecutorMain threadPoolExecutorMain = new ThreadPoolExecutorMain(TASKS);
         threadPoolExecutorMain.start();
     }
@@ -60,16 +66,15 @@ public class Application {
     /**
      * Main features
      */
-    public static void runApplication() {
+    public void runApplication() {
         createTables();
         insertMockData();
         insertRandomData(NUMBER_OF_ROWS);
-        ChartController chartController = new ChartController();
         chartController.displayRanking();
         chartController.generateHTMLReport();
     }
 
-    public static void createArtistsTable() {
+    public void createArtistsTable() {
         try {
             Statement statement = connection.createStatement();
             String query = "create table artists(" +
@@ -85,7 +90,7 @@ public class Application {
         }
     }
 
-    public static void createAlbumsTable() {
+    public void createAlbumsTable() {
         try {
             Statement statement = connection.createStatement();
             String query = "create table albums(" +
@@ -102,7 +107,7 @@ public class Application {
         }
     }
 
-    public static void createChartsTable() {
+    public void createChartsTable() {
         try {
             Statement statement = connection.createStatement();
             String query = "create table chart (" +
@@ -121,27 +126,25 @@ public class Application {
     /**
      * Create the necessary tables
      */
-    public static void createTables() {
+    public void createTables() {
         createArtistsTable();
         createAlbumsTable();
         createChartsTable();
     }
 
-    public static void insertMockArtists() {
-        ArtistController artistController = new ArtistController();
+    public void insertMockArtists() {
         artistController.create("Eminem", "USA");
         artistController.create("Stromae", "France");
         artistController.create("Adele", "UK");
     }
 
-    public static void insertMockAlbums() {
-        AlbumController albumController = new AlbumController();
+    public void insertMockAlbums() {
         albumController.create("Greatest Hits", 3, 2012);
         albumController.create("Revival", 1, 2017);
         albumController.create("Cheese", 2, 2010);
     }
 
-    public static void insertMockData() {
+    public void insertMockData() {
         insertMockArtists();
         insertMockAlbums();
     }
@@ -152,12 +155,9 @@ public class Application {
      * @param numberOfRows number of rows to be inserted
      * @see <a href="https://github.com/DiUS/java-faker">https://github.com/DiUS/java-faker</a>
      */
-    public static void insertRandomData(int numberOfRows) {
-        ArtistController artistController = new ArtistController();
+    public void insertRandomData(int numberOfRows) {
         artistController.insertRandomArtists(numberOfRows);
-        AlbumController albumController = new AlbumController();
         albumController.insertRandomAlbums(numberOfRows);
-        ChartController chartController = new ChartController();
         chartController.insertRandomChart(numberOfRows);
     }
 }

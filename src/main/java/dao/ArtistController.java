@@ -1,8 +1,7 @@
 package dao;
 
 import com.github.javafaker.Faker;
-import lombok.NoArgsConstructor;
-import models.Artist;
+import entities.Artist;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,15 +17,21 @@ import java.util.List;
  *
  * @author Ioan Sava
  */
-@NoArgsConstructor
 public class ArtistController extends Controller {
+
+    public ArtistController() {
+        try {
+            connection = getConnection();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
 
     /**
      * Insert a new Artist in database.
      */
     public void create(String name, String country) {
         try {
-            connection = getConnection();
             String query = "insert into artists(name, country)" +
                     " values(?, ?);";
 
@@ -47,7 +52,6 @@ public class ArtistController extends Controller {
     public List<Artist> findByName(String name) {
         List<Artist> listOfArtists = new ArrayList<>();
         try {
-            connection = getConnection();
             String query = "select * from artists where " +
                     "upper(trim(name)) = upper(trim(?));";
 
@@ -73,9 +77,9 @@ public class ArtistController extends Controller {
     public int randomArtistId() {
         int id = -1;
         try {
-            connection = getConnection();
             Statement statement = connection.createStatement();
 
+            // get random row
             String query = "select id from artists " +
                     "order by random() " +
                     "limit 1;";

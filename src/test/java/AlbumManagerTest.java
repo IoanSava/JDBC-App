@@ -7,7 +7,7 @@ import org.junit.Test;
  *
  * @author Ioan Sava
  */
-public class ApplicationTest {
+public class AlbumManagerTest {
     @Test
     public void testFindByName() {
         ArtistController artistController = new ArtistController();
