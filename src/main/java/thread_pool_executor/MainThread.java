@@ -12,6 +12,10 @@ import dao.ChartController;
 public class MainThread implements Runnable {
     private final int NUMBER_OF_ROWS = 50;
 
+    private ArtistController artistController = new ArtistController();
+    private AlbumController albumController = new AlbumController();
+    private ChartController chartController = new ChartController();
+
     @Override
     public void run() {
         insertRandomData(NUMBER_OF_ROWS);
@@ -20,11 +24,10 @@ public class MainThread implements Runnable {
     }
 
     private void insertRandomData(int numberOfRows) {
-        ArtistController artistController = new ArtistController();
-        artistController.insertRandomArtists(numberOfRows);
-        AlbumController albumController = new AlbumController();
-        albumController.insertRandomAlbums(numberOfRows);
-        ChartController chartController = new ChartController();
-        chartController.insertRandomChart(numberOfRows);
+        for (int i = 0; i < numberOfRows; ++i) {
+            artistController.createRandom();
+            albumController.createRandom();
+            chartController.createRandom();
+        }
     }
 }

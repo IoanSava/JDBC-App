@@ -8,9 +8,9 @@ import lombok.ToString;
 /**
  * @author Ioan Sava
  */
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 @ToString
 public class Album {
     private int id;

@@ -94,12 +94,10 @@ public class ArtistController extends Controller {
         return id;
     }
 
-    public void insertRandomArtists(int numberOfRows) {
+    public void createRandom() {
         Faker faker = new Faker();
-        for (int i = 0; i < numberOfRows; ++i) {
-            String fakeName = faker.artist().name();
-            String fakeCountry = faker.country().name();
-            create(fakeName, fakeCountry);
-        }
+        String fakeName = faker.artist().name();
+        String fakeCountry = faker.country().name();
+        create(fakeName, fakeCountry);
     }
 }

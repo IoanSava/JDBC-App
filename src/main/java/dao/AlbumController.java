@@ -95,16 +95,16 @@ public class AlbumController extends Controller {
         return id;
     }
 
-    public void insertRandomAlbums(int numberOfRows) {
+    public void createRandom() {
         ArtistController artistController = new ArtistController();
-        Random random = new Random();
-        Faker faker = new Faker();
+        int artistId = artistController.randomArtistId();
 
-        for (int i = 0; i < numberOfRows; ++i) {
-            String fakeName = faker.music().instrument();
-            int artistId = artistController.randomArtistId();
-            int randomYear = random.nextInt(20) + 2000;
-            create(fakeName, artistId, randomYear);
-        }
+        Faker faker = new Faker();
+        String fakeName = faker.music().instrument();
+
+        Random random = new Random();
+        int randomYear = random.nextInt(20) + 2000;
+
+        create(fakeName, artistId, randomYear);
     }
 }

@@ -20,8 +20,7 @@ import java.util.*;
 public class ChartController extends Controller {
     private String NAME_KEY = "name";
     private String COUNTRY_KEY = "country";
-    private String SALES_KEY = "total_sales";
-    private String POSITION_KEY = "position";
+    private String RANK_KEY = "rank";
 
     public ChartController() {
         try {
@@ -34,14 +33,15 @@ public class ChartController extends Controller {
     /**
      * Insert a new chart record in database.
      */
-    public void create(int albumId, long sales) {
+    public void create(int chartId, int albumId, int rank) {
         try {
-            String query = "insert into chart(album_id, sales)" +
-                    " values(?, ?);";
+            String query = "insert into charts_albums(chart_id, album_id, rank)" +
+                    " values(?, ?, ?);";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, albumId);
-            preparedStatement.setLong(2, sales);
+            preparedStatement.setInt(1, chartId);
+            preparedStatement.setInt(2, albumId);
+            preparedStatement.setInt(3, rank);
 
             preparedStatement.execute();
         } catch (SQLException exception) {
@@ -49,15 +49,56 @@ public class ChartController extends Controller {
         }
     }
 
-    public void insertRandomChart(int numberOfRows) {
-        AlbumController albumController = new AlbumController();
-        Random random = new Random();
+    private int getRandomChartId() {
+        int id = -1;
+        try {
+            Statement statement = connection.createStatement();
 
-        for (int i = 0; i < numberOfRows; ++i) {
-            int albumId = albumController.randomAlbumId();
-            int randomSales = random.nextInt(100) + 1;
-            create(albumId, randomSales);
+            // get random row
+            String query = "select id from charts " +
+                    "order by random() " +
+                    "limit 1;";
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
         }
+        return id;
+    }
+
+    public boolean chartAlreadyExists(int chartId, int albumId) {
+        try {
+            String query = "select id from charts_albums where chart_id = ? and album_id = ?;";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, chartId);
+            preparedStatement.setInt(2, albumId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return false;
+    }
+
+    public void createRandom() {
+        AlbumController albumController = new AlbumController();
+        int randomAlbumId = albumController.randomAlbumId();
+        Random random = new Random();
+        int randomRank = random.nextInt(100) + 1;
+        int randomChartId = getRandomChartId();
+
+        while (chartAlreadyExists(randomChartId, randomAlbumId)) {
+            randomAlbumId = albumController.randomAlbumId();
+            randomRank = random.nextInt(100) + 1;
+            randomChartId = getRandomChartId();
+        }
+
+        create(randomChartId, randomAlbumId, randomRank);
     }
 
     /**
@@ -68,22 +109,20 @@ public class ChartController extends Controller {
         List<Map<String, Object>> ranking = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            String query = "select ar.name, ar.country, SUM(sales) AS total_sales " +
-                    "from artists ar join albums al on ar.id = al.artist_id join chart ch on al.id = ch.album_id " +
-                    "group by ar.name, ar.country " +
-                    "order by SUM(sales) desc;";
+            String query = "select ch.rank, ar.name, ar.country " +
+                    "from artists ar join albums al on ar.id = al.artist_id join charts_albums ch on al.id = ch.album_id " +
+                    "order by ch.rank;";
 
             ResultSet resultSet = statement.executeQuery(query);
             int i = 0;
             while (resultSet.next()) {
                 ranking.add(new HashMap<>());
-                ranking.get(i).put(POSITION_KEY, i + 1);
+                int rank = resultSet.getInt(RANK_KEY);
+                ranking.get(i).put(RANK_KEY, rank);
                 String artistName = resultSet.getString(NAME_KEY);
                 ranking.get(i).put(NAME_KEY, artistName);
                 String country = resultSet.getString(COUNTRY_KEY);
                 ranking.get(i).put(COUNTRY_KEY, country);
-                long totalSales = resultSet.getLong(SALES_KEY);
-                ranking.get(i).put(SALES_KEY, totalSales);
                 ++i;
             }
         } catch (SQLException exception) {
@@ -92,15 +131,15 @@ public class ChartController extends Controller {
         return ranking;
     }
 
-    private void displayRow(int position, String name, String country, long sales) {
-        System.out.println(position + ". " + name + " - " + country + " - " + sales);
+    private void displayRow(int rank, String name, String country) {
+        System.out.println(rank + ". " + name + " - " + country);
     }
 
     public void displayRanking() {
         List<Map<String, Object>> ranking = generateRanking();
         for (Map<String, Object> stringObjectMap : ranking) {
-            displayRow((int) stringObjectMap.get(POSITION_KEY), (String) stringObjectMap.get(NAME_KEY),
-                    (String) stringObjectMap.get(COUNTRY_KEY), (long) stringObjectMap.get(SALES_KEY));
+            displayRow((int) stringObjectMap.get(RANK_KEY), (String) stringObjectMap.get(NAME_KEY),
+                    (String) stringObjectMap.get(COUNTRY_KEY));
         }
     }
 

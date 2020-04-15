@@ -30,8 +30,8 @@ public class AlbumManager {
         }
     }
 
-    private static final int NUMBER_OF_ROWS = 50;
-    private static final int TASKS = 5000;
+    private final int NUMBER_OF_ROWS = 50;
+    private final int TASKS = 5000;
 
     public static void main(String[] args) {
         try {
@@ -67,69 +67,10 @@ public class AlbumManager {
      * Main features
      */
     public void runApplication() {
-        //createTables();
-        //insertMockData();
-        //insertRandomData(NUMBER_OF_ROWS);
+        insertMockData();
+        insertRandomData(NUMBER_OF_ROWS);
         chartController.displayRanking();
         chartController.generateHTMLReport();
-    }
-
-    public void createArtistsTable() {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "create table artists(" +
-                    "    id integer not null generated always as identity," +
-                    "    name varchar(100) not null," +
-                    "    country varchar(100)," +
-                    "    primary key (id)" +
-                    ");";
-
-            statement.execute(query);
-        } catch (SQLException exception) {
-            System.out.println("create table artists exception");
-        }
-    }
-
-    public void createAlbumsTable() {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "create table albums(" +
-                    "    id integer not null generated always as identity," +
-                    "    name varchar(100) not null," +
-                    "    artist_id integer not null references artists on delete restrict," +
-                    "    release_year integer," +
-                    "    primary key (id)" +
-                    ");";
-
-            statement.execute(query);
-        } catch (SQLException exception) {
-            System.out.println("create table albums exception");
-        }
-    }
-
-    public void createChartsTable() {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "create table chart (" +
-                    "    id integer not null generated always as identity," +
-                    "    album_id integer not null references albums on delete restrict," +
-                    "    sales bigint," +
-                    "    primary key (id)" +
-                    ");";
-
-            statement.execute(query);
-        } catch (SQLException exception) {
-            System.out.println("create table chart exception");
-        }
-    }
-
-    /**
-     * Create the necessary tables
-     */
-    public void createTables() {
-        createArtistsTable();
-        createAlbumsTable();
-        createChartsTable();
     }
 
     public void insertMockArtists() {
@@ -156,8 +97,10 @@ public class AlbumManager {
      * @see <a href="https://github.com/DiUS/java-faker">https://github.com/DiUS/java-faker</a>
      */
     public void insertRandomData(int numberOfRows) {
-        artistController.insertRandomArtists(numberOfRows);
-        albumController.insertRandomAlbums(numberOfRows);
-        chartController.insertRandomChart(numberOfRows);
+        for (int i = 0; i < numberOfRows; ++i) {
+            artistController.createRandom();
+            albumController.createRandom();
+            chartController.createRandom();
+        }
     }
 }

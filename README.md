@@ -1,3 +1,4 @@
+
 # JDBC App
 
  - Compulsory - all bullets
@@ -10,34 +11,56 @@
 
 Output example (**Display the ranking of the artists, considering their positions in the charts**):
 
-    1. Stromae - France - 265
-    2. Vincent - Panama - 192
-    3. Renoir - Ireland - 143
-    4. Seurat - Kyrgyzstan - 142
-    5. Seurat - Eswatini - 105
-    6. Diego Rivera - Suriname - 100
-    7. Titian - Sudan - 93
-    8. Michelangelo - Namibia - 92
-    9. Kahlo - South Sudan - 91
-    10. Munch - Angola - 91
-    11. Manet - Cuba - 88
-    12. Magritte - Egypt - 81
-    13. Edward Hopper - Canada - 79
-    14. Chagall - Malta - 77
-    15. Matisse - Peru - 74
-    16. El Greco - Cameroon - 66
-    17. Kandinsky - Lesotho - 66
-    18. Vincent - Cabo Verde - 60
-    19. Monet - Guinea-Bissau - 57
-    20. El Greco - Saint Kitts and Nevis - 54
-    21. Da Vinci - Mauritius - 52
-    22. Caravaggio - Saudi Arabia - 49
-    23. Chagall - Monaco - 43
-    24. Degas - Georgia - 42
-    25. Dali - Lao People's Democratic Republic - 40
-    26. Adele - UK - 13
-    27. Rothko - Kazakhstan - 6
-    28. Diego Rivera - Serbia - 4
+    6. Picasso - Peru
+    7. Pollock - Sudan
+    9. Durer - Palau
+    11. Bernini - Ethiopia
+    12. Bernini - Lithuania
+    15. Chagall - Algeria
+    22. Picasso - Ecuador
+    23. Bernini - Lithuania
+    25. Kandinsky - Nepal
+    27. Matisse - South Sudan
+    28. Eminem - USA
+    28. Munch - South Sudan
+    28. Edward Hopper - Marshall Islands
+    31. Bernini - Lithuania
+    32. Paul Klee - Malta
+    34. Dali - Uganda
+    35. Pollock - Sudan
+    36. Rembrandt - Timor-Leste
+    41. Bernini - Ethiopia
+    42. Adele - UK
+    42. Manet - Ethiopia
+    43. Durer - Palau
+    43. Manet - Ethiopia
+    51. Escher - Belize
+    52. Matisse - South Sudan
+    53. Vettriano - Burkina Faso
+    55. Manet - Ethiopia
+    57. Escher - Mongolia
+    58. Munch - South Sudan
+    66. Degas - Niger
+    67. Degas - Burkina Faso
+    68. Picasso - Ecuador
+    71. Cezanne - Colombia
+    72. Vettriano - Japan
+    73. Rembrandt - Paraguay
+    75. Picasso - Peru
+    76. Durer - Barbados
+    78. Stromae - France
+    79. Titian - Trinidad and Tobago
+    81. Stromae - France
+    82. Munch - South Sudan
+    84. Dali - Uganda
+    87. Bernini - Ethiopia
+    90. Chagall - Ethiopia
+    91. Kahlo - Congo, Democratic Republic of the
+    95. Matisse - Singapore
+    95. Bernini - Lithuania
+    95. Degas - Burkina Faso
+    97. Vettriano - Burkina Faso
+    100. Picasso - Ecuador
     
     Process finished with exit code 0
 
