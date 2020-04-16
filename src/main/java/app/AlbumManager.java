@@ -2,12 +2,14 @@ package app;
 
 import dao.AlbumController;
 import dao.ArtistController;
+import dao.ChartAlbumController;
 import dao.ChartController;
 import db.ConnectionPool;
 import db.Database;
 import thread_pool_executor.ThreadPoolExecutorMain;
 
 import java.sql.*;
+import java.util.Scanner;
 
 /**
  * An application that allows to connect
@@ -21,6 +23,7 @@ public class AlbumManager {
     ArtistController artistController = new ArtistController();
     AlbumController albumController = new AlbumController();
     ChartController chartController = new ChartController();
+    ChartAlbumController chartAlbumController = new ChartAlbumController();
 
     static {
         try {
@@ -67,10 +70,10 @@ public class AlbumManager {
      * Main features
      */
     public void runApplication() {
-        insertMockData();
-        insertRandomData(NUMBER_OF_ROWS);
-        chartController.displayRanking();
-        chartController.generateHTMLReport();
+        //insertMockData();
+        //insertRandomData(NUMBER_OF_ROWS);
+        displayRanking();
+        generateHTMLReport();
     }
 
     public void insertMockArtists() {
@@ -100,7 +103,21 @@ public class AlbumManager {
         for (int i = 0; i < numberOfRows; ++i) {
             artistController.createRandom();
             albumController.createRandom();
-            chartController.createRandom();
+            chartAlbumController.createRandom();
         }
+    }
+
+    private void displayRanking() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Choose chart id: ");
+        int id = scanner.nextInt();
+        chartController.displayRanking(id);
+    }
+
+    private void generateHTMLReport() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Choose chart id: ");
+        int id = scanner.nextInt();
+        chartController.generateHTMLReport(id);
     }
 }

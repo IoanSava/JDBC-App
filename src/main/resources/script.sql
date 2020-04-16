@@ -26,8 +26,6 @@ create table charts (
     primary key (id)
 );
 
-insert into charts(name) values('Final ranking');
-
 create table charts_albums (
     id integer not null generated always as identity,
     chart_id integer not null references charts on delete restrict,

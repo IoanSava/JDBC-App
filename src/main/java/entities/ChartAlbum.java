@@ -9,13 +9,13 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ChartAlbums {
+public class ChartAlbum {
     private int id;
     private int chartId;
     private int albumId;
     private int rank;
 
-    public ChartAlbums(int chartId, int albumId, int rank) {
+    public ChartAlbum(int chartId, int albumId, int rank) {
         this.chartId = chartId;
         this.albumId = albumId;
         this.rank = rank;

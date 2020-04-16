@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * DAO class responsible
- * to get data regarding Chart
+ * to get data regarding Charts
  * from database.
  *
  * @author Ioan Sava
@@ -30,26 +30,19 @@ public class ChartController extends Controller {
         }
     }
 
-    /**
-     * Insert a new chart record in database.
-     */
-    public void create(int chartId, int albumId, int rank) {
+    public void create(String name) {
         try {
-            String query = "insert into charts_albums(chart_id, album_id, rank)" +
-                    " values(?, ?, ?);";
-
+            String query = "insert into charts (name) values(?);";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, chartId);
-            preparedStatement.setInt(2, albumId);
-            preparedStatement.setInt(3, rank);
-
+            preparedStatement.setString(1, name);
             preparedStatement.execute();
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    private int getRandomChartId() {
+    public int getRandomChartId() {
         int id = -1;
         try {
             Statement statement = connection.createStatement();
@@ -69,51 +62,22 @@ public class ChartController extends Controller {
         return id;
     }
 
-    public boolean chartAlreadyExists(int chartId, int albumId) {
-        try {
-            String query = "select id from charts_albums where chart_id = ? and album_id = ?;";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, chartId);
-            preparedStatement.setInt(2, albumId);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        return false;
-    }
-
-    public void createRandom() {
-        AlbumController albumController = new AlbumController();
-        int randomAlbumId = albumController.randomAlbumId();
-        Random random = new Random();
-        int randomRank = random.nextInt(100) + 1;
-        int randomChartId = getRandomChartId();
-
-        while (chartAlreadyExists(randomChartId, randomAlbumId)) {
-            randomAlbumId = albumController.randomAlbumId();
-            randomRank = random.nextInt(100) + 1;
-            randomChartId = getRandomChartId();
-        }
-
-        create(randomChartId, randomAlbumId, randomRank);
-    }
-
     /**
      * Generate the ranking of the artists,
-     * considering their positions in the chart.
+     * considering their positions in the specified chart.
      */
-    private List<Map<String, Object>> generateRanking() {
+    private List<Map<String, Object>> generateRanking(int id) {
         List<Map<String, Object>> ranking = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
             String query = "select ch.rank, ar.name, ar.country " +
                     "from artists ar join albums al on ar.id = al.artist_id join charts_albums ch on al.id = ch.album_id " +
+                    "where chart_id = ? " +
                     "order by ch.rank;";
 
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
             int i = 0;
             while (resultSet.next()) {
                 ranking.add(new HashMap<>());
@@ -135,8 +99,8 @@ public class ChartController extends Controller {
         System.out.println(rank + ". " + name + " - " + country);
     }
 
-    public void displayRanking() {
-        List<Map<String, Object>> ranking = generateRanking();
+    public void displayRanking(int id) {
+        List<Map<String, Object>> ranking = generateRanking(id);
         for (Map<String, Object> stringObjectMap : ranking) {
             displayRow((int) stringObjectMap.get(RANK_KEY), (String) stringObjectMap.get(NAME_KEY),
                     (String) stringObjectMap.get(COUNTRY_KEY));
@@ -149,8 +113,8 @@ public class ChartController extends Controller {
     /**
      * Generate a HTML report using FreeMarker
      */
-    public void generateHTMLReport() {
-        List<Map<String, Object>> ranking = generateRanking();
+    public void generateHTMLReport(int id) {
+        List<Map<String, Object>> ranking = generateRanking(id);
         Map<String, List> root = new HashMap<>();
         root.put("ranking", ranking);
         Configuration configuration = FreeMarkerConfiguration.getInstance().getConfiguration();

@@ -15,18 +15,18 @@ import java.util.List;
 public class Chart {
     private int id;
     private String name;
-    private List<Album> albums;
+    private List<ChartAlbum> chartAlbums;
 
     public Chart(String name) {
         this.name = name;
     }
 
-    public Chart(String name, List<Album> albums) {
+    public Chart(String name, List<ChartAlbum> chartAlbums) {
         this.name = name;
-        this.albums = albums;
+        this.chartAlbums = chartAlbums;
     }
 
-    public void addAlbum(Album... albums) {
-        this.albums.addAll(Arrays.asList(albums));
+    public void addAlbum(ChartAlbum... chartAlbums) {
+        this.chartAlbums.addAll(Arrays.asList(chartAlbums));
     }
 }
