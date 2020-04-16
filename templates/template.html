@@ -21,14 +21,14 @@
     <table>
         <tr>
             <th>Position</th>
-            <th>Name</th>
-            <th>Country</th>
+            <th>Album</th>
+            <th>Artist</th>
         </tr>
         <#list ranking as map>
             <tr>
                 <td>${map['rank']}</td>
-                <td>${map['name']}</td>
-                <td>${map['country']}</td>
+                <td>${map['albumName']}</td>
+                <td>${map['artistName']}</td>
             </tr>
         </#list>
     </table>

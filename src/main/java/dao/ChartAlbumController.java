@@ -41,7 +41,7 @@ public class ChartAlbumController extends Controller {
         }
     }
 
-    private boolean chartAlreadyExists(int chartId, int albumId) {
+    private boolean chartRecordAlreadyExists(int chartId, int albumId) {
         try {
             String query = "select id from charts_albums where chart_id = ? and album_id = ?;";
 
@@ -65,7 +65,7 @@ public class ChartAlbumController extends Controller {
         ChartController chartController = new ChartController();
         int randomChartId = chartController.getRandomChartId();
 
-        while (chartAlreadyExists(randomChartId, randomAlbumId)) {
+        while (chartRecordAlreadyExists(randomChartId, randomAlbumId)) {
             randomAlbumId = albumController.randomAlbumId();
             randomRank = random.nextInt(100) + 1;
             randomChartId = chartController.getRandomChartId();

@@ -18,9 +18,9 @@ import java.util.*;
  * @author Ioan Sava
  */
 public class ChartController extends Controller {
-    private String NAME_KEY = "name";
-    private String COUNTRY_KEY = "country";
     private String RANK_KEY = "rank";
+    private String ALBUM_NAME_KEY = "albumName";
+    private String ARTIST_NAME_KEY = "artistName";
 
     public ChartController() {
         try {
@@ -69,7 +69,7 @@ public class ChartController extends Controller {
     private List<Map<String, Object>> generateRanking(int id) {
         List<Map<String, Object>> ranking = new ArrayList<>();
         try {
-            String query = "select ch.rank, ar.name, ar.country " +
+            String query = "select ch.rank, al.name as albumName, ar.name as artistName " +
                     "from artists ar join albums al on ar.id = al.artist_id join charts_albums ch on al.id = ch.album_id " +
                     "where chart_id = ? " +
                     "order by ch.rank;";
@@ -83,10 +83,10 @@ public class ChartController extends Controller {
                 ranking.add(new HashMap<>());
                 int rank = resultSet.getInt(RANK_KEY);
                 ranking.get(i).put(RANK_KEY, rank);
-                String artistName = resultSet.getString(NAME_KEY);
-                ranking.get(i).put(NAME_KEY, artistName);
-                String country = resultSet.getString(COUNTRY_KEY);
-                ranking.get(i).put(COUNTRY_KEY, country);
+                String albumName = resultSet.getString(ALBUM_NAME_KEY);
+                ranking.get(i).put(ALBUM_NAME_KEY, albumName);
+                String artistName = resultSet.getString(ARTIST_NAME_KEY);
+                ranking.get(i).put(ARTIST_NAME_KEY, artistName);
                 ++i;
             }
         } catch (SQLException exception) {
@@ -102,8 +102,8 @@ public class ChartController extends Controller {
     public void displayRanking(int id) {
         List<Map<String, Object>> ranking = generateRanking(id);
         for (Map<String, Object> stringObjectMap : ranking) {
-            displayRow((int) stringObjectMap.get(RANK_KEY), (String) stringObjectMap.get(NAME_KEY),
-                    (String) stringObjectMap.get(COUNTRY_KEY));
+            displayRow((int) stringObjectMap.get(RANK_KEY), (String) stringObjectMap.get(ALBUM_NAME_KEY),
+                    (String) stringObjectMap.get(ARTIST_NAME_KEY));
         }
     }
 
