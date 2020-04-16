@@ -4,7 +4,6 @@ import dao.AlbumController;
 import dao.ArtistController;
 import dao.ChartAlbumController;
 import dao.ChartController;
-import db.ConnectionPool;
 import db.Database;
 import thread_pool_executor.ThreadPoolExecutorMain;
 
@@ -20,18 +19,10 @@ import java.util.Scanner;
  */
 public class AlbumManager {
     private static Connection connection;
-    ArtistController artistController = new ArtistController();
-    AlbumController albumController = new AlbumController();
-    ChartController chartController = new ChartController();
-    ChartAlbumController chartAlbumController = new ChartAlbumController();
-
-    static {
-        try {
-            connection = Database.getInstance().getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    private ArtistController artistController = new ArtistController();
+    private AlbumController albumController = new AlbumController();
+    private ChartController chartController = new ChartController();
+    private ChartAlbumController chartAlbumController = new ChartAlbumController();
 
     private final int NUMBER_OF_ROWS = 50;
     private final int TASKS = 5000;
@@ -39,6 +30,7 @@ public class AlbumManager {
     public static void main(String[] args) {
         try {
             AlbumManager albumManager = new AlbumManager();
+            connection = Database.getInstance().getConnection();
             connection.setAutoCommit(false);
             albumManager.runApplication();
             connection.commit();
@@ -70,7 +62,7 @@ public class AlbumManager {
      * Main features
      */
     public void runApplication() {
-        //insertMockData();
+        insertMockData();
         insertRandomData(NUMBER_OF_ROWS);
         displayRanking();
         generateHTMLReport();
