@@ -71,7 +71,7 @@ public class AlbumManager {
      */
     public void runApplication() {
         //insertMockData();
-        //insertRandomData(NUMBER_OF_ROWS);
+        insertRandomData(NUMBER_OF_ROWS);
         displayRanking();
         generateHTMLReport();
     }

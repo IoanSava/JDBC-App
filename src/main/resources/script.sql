@@ -34,5 +34,6 @@ create table charts_albums (
     album_id integer not null references albums on delete restrict,
     rank integer not null,
     primary key (id),
-    unique(chart_id, album_id)
+    unique(chart_id, album_id),
+    unique(chart_id, rank)
 );

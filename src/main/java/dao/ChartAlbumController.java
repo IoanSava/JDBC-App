@@ -41,13 +41,14 @@ public class ChartAlbumController extends Controller {
         }
     }
 
-    private boolean chartRecordAlreadyExists(int chartId, int albumId) {
+    private boolean chartRecordAlreadyExists(int chartId, int albumId, int rank) {
         try {
-            String query = "select id from charts_albums where chart_id = ? and album_id = ?;";
+            String query = "select id from charts_albums where chart_id = ? and (album_id = ? or rank = ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, chartId);
             preparedStatement.setInt(2, albumId);
+            preparedStatement.setInt(3, rank);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
@@ -58,14 +59,14 @@ public class ChartAlbumController extends Controller {
     }
 
     public void createRandom() {
+        ChartController chartController = new ChartController();
+        int randomChartId = chartController.getRandomChartId();
         AlbumController albumController = new AlbumController();
         int randomAlbumId = albumController.randomAlbumId();
         Random random = new Random();
         int randomRank = random.nextInt(100) + 1;
-        ChartController chartController = new ChartController();
-        int randomChartId = chartController.getRandomChartId();
 
-        while (chartRecordAlreadyExists(randomChartId, randomAlbumId)) {
+        while (chartRecordAlreadyExists(randomChartId, randomAlbumId, randomRank)) {
             randomAlbumId = albumController.randomAlbumId();
             randomRank = random.nextInt(100) + 1;
             randomChartId = chartController.getRandomChartId();
