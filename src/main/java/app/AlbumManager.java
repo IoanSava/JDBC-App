@@ -99,6 +99,9 @@ public class AlbumManager {
         }
     }
 
+    /**
+     * Display ranking of a given chart.
+     */
     private void displayRanking() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Choose chart id: ");
@@ -106,6 +109,10 @@ public class AlbumManager {
         chartController.displayRanking(id);
     }
 
+    /**
+     * Generate HTML report using FreeMarker
+     * for a given chart.
+     */
     private void generateHTMLReport() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Choose chart id: ");
