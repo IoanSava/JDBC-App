@@ -1,5 +1,6 @@
 
 
+
 # JDBC App
 
  - Compulsory - all bullets
@@ -7,13 +8,35 @@
  - Bonus - all bullets
 
 
-[report.html](https://codepen.io/johnycode/pen/OJyPVmR) (**For additional points, you may consider generating suggestive HTML reports, using  [FreeMarker](https://freemarker.apache.org/)  or other reporting tool**)
+## Tasks regarding Compulsory part
 
+ - [x] Database, user and tables creation
+ - src\main\resources\script.sql
+ 
+ - [x] Create the _singleton_ class _Database_ that manages a connection to the database
+ - src\main\java\db\Database
+ - [x] DAO classes
+ - src\main\java\dao\ArtistController
+ - src\main\java\dao\AlbumController
+ 
+ - [x] Implement a simple test using your classes
+ - src\test\java\AlbumManagerTest
 
-resources/visualvm.png (**Use [Visual VM](https://visualvm.github.io/) in order to monitor the execution of your application**)
+## Tasks regarding Optional part
 
-
-Output example (**Display the ranking of the artists, considering their positions in the charts**):
+ - [x] Create the necessary table(s) in order to store _charts_ in the database (a chart contains some albums in a specific order)
+ - src\main\resources\script.sql
+ 
+ - [x] Create an object-oriented model of the data managed by the Java application.
+ - src\main\java\entities
+ 
+ - [x] Generate random data and insert it into the database.
+ - src\main\java\app\AlbumManager\insertRandomData
+ 
+ - [x] Display the ranking of the artists, considering their positions in the charts
+ - src\main\java\dao\ChartAlbumController
+ - src\main\java\dao\ChartController\displayRanking
+ - Output example:
 
     Choose chart id: 1
     
@@ -34,43 +57,26 @@ Output example (**Display the ranking of the artists, considering their position
     23. Harmonica - Ansel Adams
     26. Saxophone - Eminem
     27. Electric Guitar - Renoir
-    29. Flute - Paul Klee
-    34. Electric Guitar - Vettriano
-    35. Cheese - Stromae
-    38. Harp - Munch
-    39. Ukelele - Munch
-    42. Cello - Vettriano
-    45. Saxophone - Bernini
-    46. Cello - Manet
-    47. Cello - Adele
-    48. Oboe - Stromae
-    49. Violin - Renoir
-    51. Greatest Hits - Adele
-    52. Saxophone - Picasso
-    54. Ukelele - Bernini
-    56. Harp - Adele
-    57. Oboe - Eminem
-    58. Harmonica - Rembrandt
-    60. Piano - Caravaggio
-    67. Harmonica - Adele
-    69. Oboe - Joan Miro
-    71. Flute - Winslow Homer
-    72. Saxophone - Eminem
-    73. Acoustic Guitar - Durer
-    75. Electric Guitar - Vincent
-    76. Clarinet - Eminem
-    77. Harp - Adele
-    79. Ukelele - Cezanne
-    80. Acoustic Guitar - Vincent
-    81. Harp - Pissarro
-    87. Saxophone - Raphael
-    89. Electric Guitar - Winslow Homer
-    91. Ukelele - Edward Hopper
-    93. Bass Guitar - Matisse
-    95. Violin - Adele
-    96. Revival - Eminem
-    97. Harp - Matisse
-   
+       
     
     Process finished with exit code 0
+
+
+ - [x] (*) For additional points, you may consider generating suggestive HTML reports, using [FreeMarker](https://freemarker.apache.org/) or other reporting tool.
+ - [demo](https://codepen.io/johnycode/pen/OJyPVmR)
+ - Configuration: src\main\java\freemarker\FreeMarkerConfiguration
+ - Template: templates\template.html
+ - Result: report.html
+ - Method: src\main\java\dao\ChartController\generateHTMLReport
+
+## Tasks regarding Bonus part
+
+ - [x] Use a _connection pool_ in order to manage database connections (**Apache Commons DBCP**)
+ - src\main\java\db\ConnectionPool
+
+ - [x] [ThreadPoolExecutor](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html)
+ - src\main\java\thread_pool_executor
+
+ - [x] Use [Visual VM](https://visualvm.github.io/) in order to monitor the execution of your application.
+ -  resources/visualvm.png 
 
